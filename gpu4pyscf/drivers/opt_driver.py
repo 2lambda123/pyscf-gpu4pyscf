@@ -28,6 +28,15 @@ from pyscf.geomopt.geometric_solver import kernel
 
 
 def opt_mol(mol_name, config, constraints, charge=None, spin=0):
+    """
+
+    :param mol_name: 
+    :param config: 
+    :param constraints: 
+    :param charge:  (Default value = None)
+    :param spin:  (Default value = 0)
+
+    """
     xc = config.get("xc", "b3lyp")
     disp = config.get("disp", None)
     bas = config.get("basis", "def2-tzvpp")
@@ -98,6 +107,11 @@ def opt_mol(mol_name, config, constraints, charge=None, spin=0):
     history = []
 
     def callback(envs):
+        """
+
+        :param envs: 
+
+        """
         result = {
             "energy": envs["energy"],
             "gradients": envs["gradients"],
