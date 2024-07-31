@@ -1,4 +1,5 @@
 import pyscf
+
 from gpu4pyscf.scf import hf
 
 mol = pyscf.M(atom="molecules/water_clusters/008.xyz")
@@ -11,8 +12,9 @@ from gpu4pyscf.lib.cupy_helper import load_library
 
 libgdft = load_library("libgdft")
 
-import numpy as np
 import cupy
+import numpy as np
+
 from gpu4pyscf.dft.gen_grid import Grids
 
 grids = Grids(mol)
@@ -30,7 +32,9 @@ print(dm[:4, :4])
 print(vhfopt.bas_pair2shls[:, :1000])
 
 import ctypes
+
 from pyscf import gto
+
 from gpu4pyscf.dft import numint
 
 ni = numint.NumInt().build(mol, coords)
