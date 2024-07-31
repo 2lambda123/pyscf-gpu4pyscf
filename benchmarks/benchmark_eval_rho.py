@@ -71,6 +71,11 @@ dm_sparse_fp32 = dm_sparse.astype(np.float32)
 
 
 def eval_rho0(dm):
+    """
+
+    :param dm: 
+
+    """
     with ni.gdftopt.gdft_envs_cache():
         rho = cupy.empty([4, ngrids])
         libgdft.eval_rho_fp32(
@@ -89,6 +94,11 @@ def eval_rho0(dm):
 
 
 def eval_rho1(dm):
+    """
+
+    :param dm: 
+
+    """
     rho = cupy.empty([4, ngrids])
     with ni.gdftopt.gdft_envs_cache():
         libgdft.eval_rho_fp64(
@@ -106,6 +116,11 @@ def eval_rho1(dm):
 
 
 def eval_rho2(dm):
+    """
+
+    :param dm: 
+
+    """
     ao = numint.eval_ao(ni, ni.gdftopt._sorted_mol, coords, deriv=1)
     rho0 = numint.eval_rho(ni.gdftopt._sorted_mol, ao, dm, xctype="GGA")
     return rho0
