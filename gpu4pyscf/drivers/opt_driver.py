@@ -32,9 +32,9 @@ from pyscf.geomopt.geometric_solver import kernel
 def opt_mol(mol_name, config, constraints, charge=None, spin=0):
     """
 
-    :param mol_name: 
-    :param config: 
-    :param constraints: 
+    :param mol_name:
+    :param config:
+    :param constraints:
     :param charge:  (Default value = None)
     :param spin:  (Default value = 0)
 
@@ -111,7 +111,7 @@ def opt_mol(mol_name, config, constraints, charge=None, spin=0):
     def callback(envs):
         """
 
-        :param envs: 
+        :param envs:
 
         """
         result = {
