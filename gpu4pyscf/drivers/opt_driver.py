@@ -12,19 +12,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import time
-import json
-import pyscf
 import argparse
-import tempfile
+import json
+import logging
+import os
 import shutil
+import tempfile
+import time
+
 import cupy
 import h5py
-import logging
-
-from pyscf import lib, gto
-from pyscf import dft, scf
+import pyscf
+from pyscf import dft, gto, lib, scf
 from pyscf.geomopt.geometric_solver import kernel
 
 
