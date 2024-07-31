@@ -57,7 +57,8 @@ def opt_mol(mol_name, config, constraints, charge=None, spin=0):
 
     shutil.copyfile(config["input_dir"] + mol_name, local_dir + mol_name)
     if constraints is not None:
-        shutil.copyfile(config["input_dir"] + constraints, local_dir + constraints)
+        shutil.copyfile(config["input_dir"] + constraints,
+                        local_dir + constraints)
 
     lib.num_threads(8)
     mol = pyscf.M(
@@ -99,7 +100,8 @@ def opt_mol(mol_name, config, constraints, charge=None, spin=0):
     if with_solvent:
         mf = mf.PCM()
         mf.with_solvent.lebedev_order = 29
-        mf.with_solvent.method = config["solvent"]["method"].replace("PCM", "-PCM")
+        mf.with_solvent.method = config["solvent"]["method"].replace(
+            "PCM", "-PCM")
         mf.with_solvent.eps = config["solvent"]["eps"]
 
     mf.direct_scf_tol = 1e-14
@@ -156,17 +158,20 @@ def opt_mol(mol_name, config, constraints, charge=None, spin=0):
             for key, array in info.items():
                 group.create_dataset(key, data=array)
 
-    shutil.copyfile(f"{local_dir}/{optimized_xyz}", f"{output_dir}/{optimized_xyz}")
+    shutil.copyfile(f"{local_dir}/{optimized_xyz}",
+                    f"{output_dir}/{optimized_xyz}")
     shutil.copyfile(f"{local_dir}/{hist_file}", f"{output_dir}/{hist_file}")
     shutil.copyfile(f"{local_dir}/{logfile}", f"{output_dir}/{logfile}")
-    shutil.copyfile(f"{local_dir}/{geometric_log}", f"{output_dir}/{geometric_log}")
+    shutil.copyfile(f"{local_dir}/{geometric_log}",
+                    f"{output_dir}/{geometric_log}")
     if conv:
         with open(f"{output_dir}/{mol_name[:-4]}_success.txt", "w") as file:
             file.write("Geometry optimization converged\n")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run DFT with GPU4PySCF for molecules")
+    parser = argparse.ArgumentParser(
+        description="Run DFT with GPU4PySCF for molecules")
     parser.add_argument("--config", type=str, default="example.json")
     parser.add_argument("--charge", type=int, default=None)
     parser.add_argument("--spin", type=int, default=0)
@@ -181,4 +186,8 @@ if __name__ == "__main__":
         if "constraints" in config and config["constraints"]:
             assert len(config["constraints"]) == len(config["molecules"])
             constraints = config["constraints"][i]
-        opt_mol(mol_name, config, constraints, charge=args.charge, spin=args.spin)
+        opt_mol(mol_name,
+                config,
+                constraints,
+                charge=args.charge,
+                spin=args.spin)
