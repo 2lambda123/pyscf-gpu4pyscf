@@ -11,7 +11,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import argparse
 import json
 import logging
@@ -23,7 +22,10 @@ import time
 import cupy
 import h5py
 import pyscf
-from pyscf import dft, gto, lib, scf
+from pyscf import dft
+from pyscf import gto
+from pyscf import lib
+from pyscf import scf
 from pyscf.geomopt.geometric_solver import kernel
 
 
