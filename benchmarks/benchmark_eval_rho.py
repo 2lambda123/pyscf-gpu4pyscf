@@ -3,7 +3,10 @@ import pyscf
 from gpu4pyscf.scf import hf
 
 mol = pyscf.M(atom="molecules/water_clusters/008.xyz")
-mol.basis = {"H": [[0, (0.01, 0.0070011547)]], "O": [[0, (0.01, 0.0070011547)]]}
+mol.basis = {
+    "H": [[0, (0.01, 0.0070011547)]],
+    "O": [[0, (0.01, 0.0070011547)]]
+}
 mol.build()
 
 vhfopt = hf._VHFOpt(mol, "int2e").build()
@@ -19,7 +22,7 @@ from gpu4pyscf.dft.gen_grid import Grids
 
 grids = Grids(mol)
 grids.build()
-coords = cupy.asarray(grids.coords[: 256 * 256 * 16], order="F")  # .copy()
+coords = cupy.asarray(grids.coords[:256 * 256 * 16], order="F")  # .copy()
 
 ngrids, _ = coords.shape
 
@@ -128,17 +131,17 @@ def eval_rho2(dm):
 
 from cupyx import profiler
 
-perf = profiler.benchmark(eval_rho0, (dm_sparse,), n_repeat=20, n_warmup=3)
+perf = profiler.benchmark(eval_rho0, (dm_sparse, ), n_repeat=20, n_warmup=3)
 print("with eval_rho0", perf.gpu_times.mean())
 # 0.130s on V100
 # 0.115s on A10
 
-perf = profiler.benchmark(eval_rho1, (dm_sparse,), n_repeat=20, n_warmup=3)
+perf = profiler.benchmark(eval_rho1, (dm_sparse, ), n_repeat=20, n_warmup=3)
 print("with eval_rho1", perf.gpu_times.mean())
 # 0.324s on V100
 # 5.401s on A10
 
-perf = profiler.benchmark(eval_rho2, (dm,), n_repeat=20, n_warmup=3)
+perf = profiler.benchmark(eval_rho2, (dm, ), n_repeat=20, n_warmup=3)
 print("with eval_rho2", perf.gpu_times.mean())
 # 0.0858s on v100
 # 0.723s on A10
