@@ -64,7 +64,7 @@ void _screen_index(int *non0shl_idx, double cutoff, int l, int ish, int nprim, d
     if (active) {
         gridx = coords[3*grid_id + 0];
         gridy = coords[3*grid_id + 1];
-        gridz = coords[3*grid_id + 2];        
+        gridz = coords[3*grid_id + 2];
     } else {
         gridx = 0.0;
         gridy = 0.0;
@@ -94,7 +94,7 @@ void _screen_index(int *non0shl_idx, double cutoff, int l, int ish, int nprim, d
     }
     gto_sup *= pow(r,l);
     int is_large = fabs(gto_sup) > cutoff;
-    
+
     // Reduce and write to global memory
     unsigned int tid = threadIdx.x;
     __shared__ int sdata[NG_PER_BLOCK];

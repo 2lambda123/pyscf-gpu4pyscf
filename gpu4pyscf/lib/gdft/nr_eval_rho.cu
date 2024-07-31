@@ -3,7 +3,7 @@ __constant__ BasisProdCache c_bpcache;
 #define NG_PER_BLOCK       256
 template <typename T1, typename T2>
 __global__
-static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs, 
+static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
     T2 *exp_sparse, T2 *coef_sparse, T2 *coord_pairs){
     int ngrids = offsets.ngrids;
     int grid_id = blockIdx.x * blockDim.x + threadIdx.x;
@@ -12,7 +12,7 @@ static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
     double* __restrict__ rhox = offsets.data + 1 * ngrids;
     double* __restrict__ rhoy = offsets.data + 2 * ngrids;
     double* __restrict__ rhoz = offsets.data + 3 * ngrids;
-    
+
     T2* __restrict__ xi = coord_pairs;
     T2* __restrict__ yi = coord_pairs + npairs;
     T2* __restrict__ zi = coord_pairs + 2*npairs;
@@ -22,7 +22,7 @@ static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
 
     T2* __restrict__ ei = exp_sparse;
     T2* __restrict__ ej = exp_sparse + npairs;
-    
+
     double *gridx = offsets.gridx;
     double *gridy = offsets.gridx + ngrids;
     double *gridz = offsets.gridx + ngrids * 2;
@@ -40,7 +40,7 @@ static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
     T2 rhox_i = 0.0;
     T2 rhoy_i = 0.0;
     T2 rhoz_i = 0.0;
-    
+
     T2 __shared__ dm_shared[NG_PER_BLOCK];
     T2 __shared__ xi_shared[NG_PER_BLOCK];
     T2 __shared__ yi_shared[NG_PER_BLOCK];
@@ -100,7 +100,7 @@ static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
 
             T2 eij = exp(-erri - errj);
             T2 dme_ij = dm_shared[task_id] * eij;
-            
+
             rho_i  += dme_ij;
             rhox_i += gtox * dme_ij;
             rhoy_i += gtoy * dme_ij;
@@ -108,7 +108,7 @@ static void _eval_rho(BasOffsets offsets, T2 *dm_sparse, int npairs,
         }
         __syncthreads();
     }
-    
+
     // Due to the symmetry
     if (grid_id < ngrids){
         rho[grid_id] = rho_i * 2.0;
